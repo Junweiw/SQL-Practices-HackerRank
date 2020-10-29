@@ -11,7 +11,7 @@ This file includes my solutions to HackerRank SQL questions in MySQL
 ### Basic Join - Easy
 [Asian Population](#asian-population) | [African Cities](#african-cities) | [Average Population of Each Continent](#average-population-of-each-continent)
 ### Basic Join - Medium
-[The Report](#the-report) | [Top Competitors](#top-competitors) | [Ollivander's inventory](#ollivender's-inventory) | Challenges | Contest Leaderboard
+[The Report](#the-report) | [Top Competitors](#top-competitors) | [Ollivander's inventory](#ollivander's-inventory) | Challenges | Contest Leaderboard
 ### Advanced Join - Medium
 SQL Project Planning | Placements | Symmetric Pairs
 ### Advanced Join - Hard
