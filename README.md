@@ -11,7 +11,7 @@ This file includes my solutions to HackerRank SQL questions in MySQL
 ### Basic Join - Easy
 [Asian Population](#asian-population) | [African Cities](#african-cities) | [Average Population of Each Continent](#average-population-of-each-continent)
 ### Basic Join - Medium
-[The Report](#the-report) | [Top Competitors](#top-competitors) | [Ollivander's inventory](#ollivanders-inventory) | Challenges | Contest Leaderboard
+[The Report](#the-report) | [Top Competitors](#top-competitors) | [Ollivander's inventory](#ollivanders-inventory) | [Challenges](#challenges) | [Contest Leaderboard](#contest-leaderboard)
 ### Advanced Join - Medium
 SQL Project Planning | Placements | Symmetric Pairs
 ### Advanced Join - Hard
@@ -438,3 +438,45 @@ ORDER BY power DESC, age DESC
 ##### [**Back to Question List**](#question-list)
 [Ollivander's-Inventory]:
 https://www.hackerrank.com/challenges/harry-potter-and-wands/problem
+
+#### [**Challenges**][Challenges]
+```sql
+# Using MS SQL
+WITH Challenge_counts AS(
+SELECT Hackers.hacker_id, name, COALESCE(challenge_cnt,0) AS challenge_cnt
+FROM Hackers LEFT JOIN
+    (SELECT hacker_id, COUNT(challenge_id) AS challenge_cnt
+     FROM Challenges
+     GROUP BY hacker_id)T1
+ON Hackers.hacker_id = T1.hacker_id),
+
+Challenge_counts_max AS(
+SELECT hacker_id, name, challenge_cnt, MAX(challenge_cnt) OVER (PARTITION BY NULL) AS max_challenge, COUNT(hacker_id) OVER (PARTITION BY challenge_cnt) AS hacker_per_challenge
+FROM Challenge_counts)
+
+SELECT hacker_id, name, challenge_cnt
+FROM Challenge_counts_max
+WHERE challenge_cnt = max_challenge OR hacker_per_challenge = 1
+ORDER BY challenge_cnt DESC, hacker_id
+```
+##### [**Back to Question List**](#question-list)
+[Challenges]:
+https://www.hackerrank.com/challenges/challenges/problem
+
+#### [**Contest Leaderboard**][Contest-Leaderboard]
+```sql
+SELECT Hackers.hacker_id, name, tot_scores
+FROM Hackers LEFT JOIN
+   (SELECT hacker_id, SUM(max_scores) AS tot_scores
+    FROM
+        (SELECT hacker_id, challenge_id, MAX(score) AS max_scores
+         FROM Submissions
+         GROUP BY hacker_id, challenge_id)T1
+    GROUP BY hacker_id)T2
+ON Hackers.hacker_id = T2.hacker_id
+WHERE tot_scores >0
+ORDER BY tot_scores DESC, Hackers.hacker_id
+```
+##### [**Back to Question List**](#question-list)
+[Contest-Leaderboard]:
+https://www.hackerrank.com/challenges/contest-leaderboard/problem
