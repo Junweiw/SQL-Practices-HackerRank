@@ -9,9 +9,9 @@ This file includes my solutions to HackerRank SQL questions in MySQL
 ### Advanced Select - Medium
 [The PADS](#the-pads) | [Occupations](#occupations) | [Binary Tree Nodes](#binatry-tree-nodes) | [New Companies](#new-companies)
 ### Basic Join - Easy
-Asian Population | Agfrican Cities | Average Population of Each Continent
+[Asian Population](#asian-population) | [African Cities](#african-cities) | [Average Population of Each Continent](#average-population-of-each-continent)
 ### Basic Join - Medium
-The Report | Top Competitors | Ollivander's inventory | Challenges | Contest Leaderboard
+[The Report](#the-report) | [Top Competitors](#top-competitors) | [Ollivander's inventory](#ollivender's-inventory) | Challenges | Contest Leaderboard
 ### Advanced Join - Medium
 SQL Project Planning | Placements | Symmetric Pairs
 ### Advanced Join - Hard
@@ -308,13 +308,133 @@ ORDER BY Company.company_code
 [New-Companies]:
 https://www.hackerrank.com/challenges/the-company/problem
 
-#### [**Binary Tree Nodes**][Binary-Tree-Nodes]
+#### [**Asian Population**][Asian-Population]
 ```sql
-SELECT N, CASE WHEN P IS NULL THEN 'Root'
-               WHEN N IN (SELECT P FROM BST) THEN 'Inner'
-               ELSE 'Leaf' END AS node_type
-FROM BST ORDER BY N
+# Solution 1
+SELECT SUM(City.population)
+FROM City, Country
+WHERE City.Countrycode = Country.Code AND Country.Continent = 'Asia'
+```
+
+```sql
+# Solution 2
+SELECT SUM(City.population)
+FROM City LEFT JOIN Country
+ON City.Countrycode = Country.Code
+WHERE Country.Continent = 'Asia'
 ```
 ##### [**Back to Question List**](#question-list)
-[Binary-Tree-Nodes]:
-https://www.hackerrank.com/challenges/binary-search-tree-1/problem
+[Asian-Population]:
+https://www.hackerrank.com/challenges/asian-population/problem
+
+#### [**African Cities**][African-Cities]
+```sql
+# Solution 1
+SELECT City.Name
+FROM City, Country
+WHERE City.CountryCode = Country.Code AND Country.Continent = 'Africa'
+```
+
+```sql
+# Solution 2
+SELECT City.Name
+FROM City LEFT JOIN Country
+ON City.CountryCode = Country.Code
+WHERE Country.Continent = 'Africa'
+```
+##### [**Back to Question List**](#question-list)
+[African-Cities]:
+https://www.hackerrank.com/challenges/african-cities/problem
+
+#### [**Average Population of Each Continent**][Average-Population-of-Each-Continent]
+```sql
+# Solution 1
+SELECT Country.Continent, FLOOR(SUM(City.population)/COUNT(City.name))
+FROM City, Country
+WHERE City.CountryCode = Country.Code
+GROUP BY Country.Continent
+```
+
+```sql
+# Solution 2
+SELECT Country.Continent, FLOOR(SUM(City.Population)/Count(City.Name))
+FROM City INNER JOIN Country
+ON City.CountryCode = Country.Code
+GROUP BY Country.Continent
+```
+##### [**Back to Question List**](#question-list)
+[Average-Population-of-Each-Continent]:
+https://www.hackerrank.com/challenges/average-population-of-each-continent/problem
+
+#### [**The Report**][The-Report]
+```sql
+# Solution 1
+SELECT CASE WHEN grades >= 8 THEN name ELSE NULL END AS name, grades, marks
+FROM
+    (SELECT id, name, marks, CASE WHEN marks < 100 THEN CEIL((marks+1)/10) ELSE 10 END AS grades
+     FROM Students)T1
+ORDER BY grades DESC, name, marks
+```
+
+```sql
+# Solution 2
+SELECT CASE WHEN Grades.grade >= 8 THEN Students.name ELSE NULL END AS name, Grades.grade, Students.marks
+FROM Students, Grades
+WHERE Students.Marks BETWEEN Min_Mark AND Max_Mark
+ORDER BY Grades.grade DESC, name, Students.marks
+```
+##### [**Back to Question List**](#question-list)
+[The-Report]:
+https://www.hackerrank.com/challenges/the-report/problem
+
+#### [**Top Competitors**][Top-Competitors]
+```sql
+SELECT T2.hacker_id, Hackers.name
+FROM 
+   (SELECT T1.hacker_id, COUNT(DISTINCT T1.challenge_id) AS challenge_count
+    FROM
+        (SELECT Submissions.hacker_id, Submissions.challenge_id
+         FROM Submissions LEFT JOIN
+             (SELECT Difficulty.score AS full_score, challenges.Challenge_id
+              FROM Challenges LEFT JOIN Difficulty
+              ON Challenges.difficulty_level = Difficulty.difficulty_level) Challenge_score
+         ON Submissions.challenge_id = Challenge_score.challenge_id 
+         WHERE Submissions.score = Challenge_score.full_score)T1
+    GROUP BY T1.hacker_id     
+    HAVING COUNT(DISTINCT challenge_id) > 1)T2
+    LEFT JOIN Hackers ON T2.hacker_id = Hackers.hacker_id
+ORDER BY T2.challenge_count DESC, T2.hacker_id
+```
+##### [**Back to Question List**](#question-list)
+[Top-Competitors]:
+https://www.hackerrank.com/challenges/full-score/problem
+
+#### [**Ollivander's Inventory**][Ollivander's-Inventory]
+```sql
+# Solution 1
+SELECT Wands.id, T1.age, T1.min_coins, T1.power
+FROM 
+   (SELECT MIN(coins_needed) AS min_coins, Wands_Property.age, Wands.power, Wands_Property.code
+    FROM Wands LEFT JOIN Wands_Property
+    ON Wands.code = Wands_Property.code
+    WHERE Wands_Property.is_evil = 0
+    GROUP BY Wands_Property.age, Wands.power, Wands_Property.code)T1
+LEFT JOIN Wands
+ON Wands.coins_needed = T1.min_coins AND Wands.power = T1.power AND Wands.code = T1.code
+ORDER BY Wands.power DESC, T1.age DESC
+```
+
+```sql
+# Solution 2
+SELECT id, age, min_coins, power
+FROM
+    (SELECT Wands.id, MIN(Wands.coins_needed) OVER(PARTITION BY Wands_Property.age, Wands.power) AS min_coins, Wands.coins_needed, Wands_Property.age, Wands.power
+     FROM Wands LEFT JOIN Wands_Property
+     ON Wands.code = Wands_Property.code
+     WHERE Wands_Property.is_evil = 0)T1
+WHERE min_coins = coins_needed
+ORDER BY power DESC, age DESC
+```
+##### [**Back to Question List**](#question-list)
+[Ollivander's-Inventory]:
+https://www.hackerrank.com/challenges/harry-potter-and-wands/problem
