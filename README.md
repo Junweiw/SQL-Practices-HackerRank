@@ -7,11 +7,11 @@ This file includes my solutions to HackerRank SQL questions in MySQL
 ### Advanced Select - Easy
 [Type of Triangle](#type-of-triangle)
 ### Advanced Select - Medium
-[The PADS](#the-pads) | [Occupations](#occupations) | [Binary Tree Nodes](#binatry-tree-nodes) | [New Companies](#new-companies)
+[The PADS](#the-pads) | [Occupations](#occupations) | [Binary Tree Nodes](#binary-tree-nodes) | [New Companies](#new-companies)
 ### Basic Join - Easy
 [Asian Population](#asian-population) | [African Cities](#african-cities) | [Average Population of Each Continent](#average-population-of-each-continent)
 ### Basic Join - Medium
-[The Report](#the-report) | [Top Competitors](#top-competitors) | [Ollivander's inventory](#ollivander's-inventory) | Challenges | Contest Leaderboard
+[The Report](#the-report) | [Top Competitors](#top-competitors) | [Ollivander's inventory](#ollivanders-inventory) | Challenges | Contest Leaderboard
 ### Advanced Join - Medium
 SQL Project Planning | Placements | Symmetric Pairs
 ### Advanced Join - Hard
@@ -409,7 +409,7 @@ ORDER BY T2.challenge_count DESC, T2.hacker_id
 [Top-Competitors]:
 https://www.hackerrank.com/challenges/full-score/problem
 
-#### [**Ollivander's Inventory**][Ollivander's-Inventory]
+#### [**Ollivanders Inventory**][Ollivander's-Inventory]
 ```sql
 # Solution 1
 SELECT Wands.id, T1.age, T1.min_coins, T1.power
