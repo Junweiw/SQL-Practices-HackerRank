@@ -204,3 +204,80 @@ ORDER BY EMPLOYEE_ID
 ##### [**Back to Question List**](#question-list)
 [Employee-Salaries]:
 https://www.hackerrank.com/challenges/salary-of-employees/problem
+
+#### [**Type of Triangle**][Type-of-Triangle]
+```sql
+SELECT CASE
+       WHEN A+B <= C OR A+C <= B OR B+C <= A THEN 'Not A Triangle'
+       WHEN A=B AND B=C THEN 'Equilateral'
+       WHEN A=B OR B=C OR A=C THEN 'Isosceles'
+       ELSE 'Scalene' END AS KIND
+FROM TRIANGLES
+```
+##### [**Back to Question List**](#question-list)
+[Type-of-Triangle]:
+https://www.hackerrank.com/challenges/what-type-of-triangle/problem
+
+#### [**The PADS**][The-PADS]
+```sql
+SELECT CONCAT(NAME,'(',LEFT(OCCUPATION,1),')')
+FROM OCCUPATIONS
+ORDER BY NAME, OCCUPATION;
+SELECT CONCAT('There are a total of ', COUNT(NAME),' ', LOWER(OCCUPATION),'s.')
+FROM OCCUPATIONS
+GROUP BY OCCUPATION
+ORDER BY COUNT(NAME),OCCUPATION
+```
+##### [**Back to Question List**](#question-list)
+[The-PADS]:
+https://www.hackerrank.com/challenges/the-pads/problem
+
+#### [**Binary Tree Nodes**][Binary-Tree-Nodes]
+```sql
+SELECT N, CASE WHEN P IS NULL THEN 'Root'
+               WHEN N IN (SELECT P FROM BST) THEN 'Inner'
+               ELSE 'Leaf' END AS node_type
+FROM BST ORDER BY N
+```
+##### [**Back to Question List**](#question-list)
+[Binary-Tree-Nodes]:
+https://www.hackerrank.com/challenges/binary-search-tree-1/problem
+
+#### [**New Companies**][New-Companies]
+```sql
+SELECT Company.company_code, founder, COALESCE(lead_manager_cnt,0), COALESCE(sr_manager_cnt,0), COALESCE(manager_cnt,0), COALESCE(employee_cnt,0)
+
+FROM    Company,
+        
+        (SELECT company_code, COUNT(DISTINCT employee_code) AS employee_cnt
+         FROM Employee GROUP BY company_code) AS employee_cnt, 
+         
+        (SELECT company_code, COUNT(DISTINCT manager_code) AS manager_cnt
+         FROM Manager GROUP BY company_code) AS manager_cnt, 
+         
+        (SELECT company_code, COUNT(DISTINCT senior_manager_code) AS sr_manager_cnt
+         FROM Senior_Manager GROUP BY company_code) AS sr_manager_cnt,
+         
+        (SELECT company_code, COUNT(DISTINCT lead_manager_code) AS lead_manager_cnt
+         FROM Lead_Manager GROUP BY company_code) AS lead_manager_cnt
+         
+WHERE Company.company_code = lead_manager_cnt.company_code 
+    AND Company.company_code = sr_manager_cnt.company_code
+    AND Company.company_code = manager_cnt.company_code
+    AND Company.company_code = employee_cnt.company_code
+ORDER BY Company.company_code
+```
+##### [**Back to Question List**](#question-list)
+[New-Companies]:
+https://www.hackerrank.com/challenges/the-company/problem
+
+#### [**Binary Tree Nodes**][Binary-Tree-Nodes]
+```sql
+SELECT N, CASE WHEN P IS NULL THEN 'Root'
+               WHEN N IN (SELECT P FROM BST) THEN 'Inner'
+               ELSE 'Leaf' END AS node_type
+FROM BST ORDER BY N
+```
+##### [**Back to Question List**](#question-list)
+[Binary-Tree-Nodes]:
+https://www.hackerrank.com/challenges/binary-search-tree-1/problem
