@@ -232,6 +232,43 @@ ORDER BY COUNT(NAME),OCCUPATION
 [The-PADS]:
 https://www.hackerrank.com/challenges/the-pads/problem
 
+##### [**Back to Question List**](#question-list)
+[Type-of-Triangle]:
+https://www.hackerrank.com/challenges/what-type-of-triangle/problem
+
+#### [**Occupations**][Occupations]
+```sql
+WITH Rows_Table AS(
+SELECT DISTINCT Row_Num
+FROM 
+    (SELECT ROW_NUMBER() OVER(PARTITION BY Occupation ORDER BY Name) AS Row_Num FROM Occupations)T1),
+
+Doctor AS(
+SELECT ROW_NUMBER() OVER (PARTITION BY NULL ORDER BY Name) AS Row_Num, Name
+FROM Occupations WHERE Occupation = 'Doctor'),
+
+Professor AS(
+SELECT ROW_NUMBER() OVER (PARTITION BY NULL ORDER BY Name) AS Row_Num, Name
+FROM Occupations WHERE Occupation = 'Professor'),
+
+Singer AS(
+SELECT ROW_NUMBER() OVER (PARTITION BY NULL ORDER BY Name) AS Row_Num, Name
+FROM Occupations WHERE Occupation = 'Singer'),
+
+Actor AS(
+SELECT ROW_NUMBER() OVER (PARTITION BY NULL ORDER BY Name) AS Row_Num, Name
+FROM Occupations WHERE Occupation = 'Actor')
+
+SELECT Doctor.Name, Professor.Name, Singer.Name, Actor.Name
+FROM Rows_Table LEFT JOIN Doctor ON Rows_Table.Row_Num = Doctor.Row_Num
+                LEFT JOIN Professor ON Rows_Table.Row_Num = Professor.Row_Num
+                LEFT JOIN Singer ON Rows_Table.Row_Num = Singer.Row_Num
+                LEFT JOIN Actor ON Rows_Table.Row_Num = Actor.Row_Num
+```
+##### [**Back to Question List**](#question-list)
+[Occupations]:
+https://www.hackerrank.com/challenges/occupations/problem
+
 #### [**Binary Tree Nodes**][Binary-Tree-Nodes]
 ```sql
 SELECT N, CASE WHEN P IS NULL THEN 'Root'
