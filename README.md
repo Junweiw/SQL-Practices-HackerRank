@@ -409,7 +409,7 @@ ORDER BY T2.challenge_count DESC, T2.hacker_id
 [Top-Competitors]:
 https://www.hackerrank.com/challenges/full-score/problem
 
-#### [**Ollivanders Inventory**][Ollivander's-Inventory]
+#### [**Ollivander's Inventory**][Ollivander's-Inventory]
 ```sql
 # Solution 1
 SELECT Wands.id, T1.age, T1.min_coins, T1.power
