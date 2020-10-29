@@ -3,11 +3,11 @@ This file includes my solutions to HackerRank SQL questions in MySQL
 
 ## Question List
 ### Basic Select - Easy
-[Revising the Select Query I](#revising-the-select-query-i) | [Revising the Select Query II](#revising-the-select-query-ii) | [Select All](#select-all) | [Select By ID](#select-by-id) | [Japanese Cities' Attributes](#japanese-cities-attributes) | [Japanese Cities' Names](#japanese-cities-names) | [Weather Observation Stations 1](#weather-observation-stations-1) | [Weather Observation Stations 3](#weather-observation-stations-3) | [Weather Observation Stations 4](#weather-observation-stations-4) | [Weather Observation Stations 5](#weather-observation-stations-5) | [Weather Observation Stations 6](#weather-observation-stations-6) | [Weather Observation Stations 7](#weather-observation-stations-7) | [Weather Observation Stations 8](#weather-observation-stations-8) | [Weather Observation Stations 9](#weather-observation-stations-9) | [Weather Observation Stations 10](#weather-observation-stations-10) | [Weather Observation Stations 11](#weather-observation-stations-11) | [Weather Observation Stations 12](#weather-observation-stations-12) | [Higher Than 75 Marks](#higher-than-75-marks) | [Employee Names](#employee-names) | [Employee Salaries](#employee-salaries)
+[Revising the Select Query I](#revising-the-select-query-i) | [Revising the Select Query II](#revising-the-select-query-ii) | [Select All](#select-all) | [Select By ID](#select-by-id) | [Japanese Cities' Attributes](#japanese-cities-attributes) | [Japanese Cities' Names](#japanese-cities-names) | [Weather Observation Station 1](#weather-observation-station-1) | [Weather Observation Station 3](#weather-observation-station-3) | [Weather Observation Station 4](#weather-observation-station-4) | [Weather Observation Station 5](#weather-observation-station-5) | [Weather Observation Station 6](#weather-observation-station-6) | [Weather Observation Station 7](#weather-observation-station-7) | [Weather Observation Station 8](#weather-observation-station-8) | [Weather Observation Station 9](#weather-observation-station-9) | [Weather Observation Station 10](#weather-observation-station-10) | [Weather Observation Station 11](#weather-observation-station-11) | [Weather Observation Station 12](#weather-observation-station-12) | [Higher Than 75 Marks](#higher-than-75-marks) | [Employee Names](#employee-names) | [Employee Salaries](#employee-salaries)
 ### Advanced Select - Easy
-Type of Triangle
-### Advanced Join - Medium
-The PADS | Occupations | Binary Tree Nodes | New Companies
+[Type of Triangle](#type-of-triangle)
+### Advanced Select - Medium
+[The PADS](#the-pads) | [Occupations](#occupations) | [Binary Tree Nodes](#binatry-tree-nodes) | [New Companies](#new-companies)
 ### Basic Join - Easy
 Asian Population | Agfrican Cities | Average Population of Each Continent
 ### Basic Join - Medium
