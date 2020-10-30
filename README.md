@@ -13,7 +13,7 @@ This file includes my solutions to HackerRank SQL questions in MySQL
 ### Basic Join - Medium
 [The Report](#the-report) | [Top Competitors](#top-competitors) | [Ollivander's inventory](#ollivanders-inventory) | [Challenges](#challenges) | [Contest Leaderboard](#contest-leaderboard)
 ### Advanced Join - Medium
-SQL Project Planning | Placements | Symmetric Pairs
+[SQL Project Planning](#sql-project-planning) | Placements | Symmetric Pairs
 ### Advanced Join - Hard
 Interviews | 15 Days of Learning SQL
 ### Aggregation - Easy
@@ -480,3 +480,48 @@ ORDER BY tot_scores DESC, Hackers.hacker_id
 ##### [**Back to Question List**](#question-list)
 [Contest-Leaderboard]:
 https://www.hackerrank.com/challenges/contest-leaderboard/problem
+
+#### [**SQL Project Planning**][SQL-Project-Planning]
+```sql
+# Solution 1 in MS SQL
+WITH Project_Dates AS(
+    SELECT Task_Date, ROW_NUMBER()OVER(PARTITION BY NULL ORDER BY Task_Date) AS Row_Number
+    FROM  (SELECT Task_Date
+           FROM
+            (SELECT DISTINCT Start_Date AS Task_Date
+             FROM Projects
+             UNION ALL
+             SELECT DISTINCT End_Date AS Task_date
+             FROM Projects)T1
+           GROUP BY Task_Date
+           HAVING COUNT(Task_Date) =1)T2),
+    
+    Start_End_Dates AS(
+    SELECT Start_Date, End_Date, DATEDIFF(day,Start_Date, End_Date) AS Completion_Days
+    FROM 
+        (SELECT Task_Date AS Start_Date, Row_Number
+         FROM Project_Dates
+         WHERE Row_Number % 2 = 1)Start_D,
+        (SELECT Task_Date AS End_Date, Row_Number
+         FROM Project_Dates
+         WHERE Row_number % 2 = 0)End_D
+    WHERE Start_D.Row_Number = End_D.Row_number - 1)
+    
+SELECT Start_Date, End_Date
+FROM Start_End_Dates
+ORDER BY Completion_Days, Start_Date
+```
+
+```sql
+# Solution 2 in MySQL
+SELECT start_date, MIN(end_date)
+FROM 
+    (SELECT start_date FROM projects WHERE start_date NOT IN (SELECT end_date FROM projects)) Start_D,
+    (SELECT end_date FROM projects WHERE end_date NOT IN (SELECT start_date FROM projects)) End_D
+WHERE Start_D.start_date < End_D.end_date
+GROUP BY Start_D.start_date
+ORDER BY DATEDIFF(MIN(end_date), start_date), start_date
+```
+##### [**Back to Question List**](#question-list)
+[SQL-Project-Planning]:
+https://www.hackerrank.com/challenges/sql-projects/problem
