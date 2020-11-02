@@ -13,7 +13,7 @@ This file includes my solutions to HackerRank SQL questions in MySQL or noted ot
 ### Basic Join - Medium
 [The Report](#the-report) | [Top Competitors](#top-competitors) | [Ollivander's inventory](#ollivanders-inventory) | [Challenges](#challenges) | [Contest Leaderboard](#contest-leaderboard)
 ### Advanced Join - Medium
-[SQL Project Planning](#sql-project-planning) | Placements | Symmetric Pairs
+[SQL Project Planning](#sql-project-planning) | [Placements](#placements) | Symmetric Pairs
 ### Advanced Join - Hard
 Interviews | 15 Days of Learning SQL
 ### Aggregation - Easy
@@ -525,3 +525,24 @@ ORDER BY DATEDIFF(MIN(end_date), start_date), start_date
 ##### [**Back to Question List**](#question-list)
 [SQL-Project-Planning]:
 https://www.hackerrank.com/challenges/sql-projects/problem
+
+#### [**Placements**][Placements]
+```sql
+SELECT Students.Name
+FROM
+    (SELECT Friends.ID, Packages.Salary AS Salary
+     FROM Friends LEFT JOIN Packages
+     ON Friends.ID = Packages.ID)T1
+    LEFT JOIN
+    (SELECT Friends.ID, Packages.Salary AS Friends_Salary
+     FROM Friends LEFT JOIN Packages
+     ON Friends.Friend_ID = Packages.ID)T2
+    ON T1.ID = T2.ID
+    LEFT JOIN Students
+    ON T1.ID = Students.ID
+WHERE T1.Salary < T2.Friends_Salary
+ORDER BY T2.Friends_Salary
+```
+##### [**Back to Question List**](#question-list)
+[Placements]:
+https://www.hackerrank.com/challenges/placements/problem
