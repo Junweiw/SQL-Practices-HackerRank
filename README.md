@@ -13,9 +13,9 @@ This file includes my solutions to HackerRank SQL questions in MySQL or noted ot
 ### Basic Join - Medium
 [The Report](#the-report) | [Top Competitors](#top-competitors) | [Ollivander's inventory](#ollivanders-inventory) | [Challenges](#challenges) | [Contest Leaderboard](#contest-leaderboard)
 ### Advanced Join - Medium
-[SQL Project Planning](#sql-project-planning) | [Placements](#placements) | Symmetric Pairs
+[SQL Project Planning](#sql-project-planning) | [Placements](#placements) | [Symmetric Pairs](#symmetric-pairs)
 ### Advanced Join - Hard
-Interviews | 15 Days of Learning SQL
+[Interviews](#interviews) | [15 Days of Learning SQL](#15-days-of-learning-sql)
 ### Aggregation - Easy
 Revising Aggregation - The Count Function | Revising Aggregation - The Sum Function | Revising Aggregations - Averages | Average Population | Japan Population | Population Density Difference | The Blunder | Top Earners | Weather Observation 2 | Weather Observation Station 13 | Weather Observation Station 14 | Weather Observation Station 15 | Weather Observation Station 16 | Weather Observation Station 17
 ### Aggregation - Medium
@@ -546,3 +546,116 @@ ORDER BY T2.Friends_Salary
 ##### [**Back to Question List**](#question-list)
 [Placements]:
 https://www.hackerrank.com/challenges/placements/problem
+
+#### [**Symmetric Pairs**][Symmetric-Pairs]
+```sql
+SELECT T1.X, T1.Y
+FROM Functions AS T1, Functions AS T2
+WHERE T1.X = T2.Y AND T1.Y = T2.X
+GROUP BY T1.X, T1.Y
+HAVING COUNT(*)>1 OR T1.X < T1.Y
+ORDER BY T1.X, T1.Y
+```
+##### [**Back to Question List**](#question-list)
+[Symmetric-Pairs]:
+https://www.hackerrank.com/challenges/symmetric-pairs/problem
+
+#### [**Interviews**][Interviews]
+```sql
+# Solution 1 in MySQL
+SELECT Contests.contest_id, Contests.hacker_id, Contests.name,
+       contest_level.sum_sub, contest_level.sum_acc_sub, contest_level.sum_views,
+       contest_level.sum_uni_views
+FROM Contests LEFT JOIN
+    (SELECT contest_id, SUM(tot_sub) AS sum_sub, SUM(tot_acc_sub) AS sum_acc_sub, 
+            SUM(tot_views) AS sum_views, SUM(tot_uni_views) AS sum_uni_views
+     FROM Colleges
+     LEFT JOIN 
+        (SELECT College_id, SUM(submission_challenge_level.total_submissions) AS tot_sub,
+                SUM(submission_challenge_level.total_accepted_submissions) AS tot_acc_sub,
+                SUM(view_challenge_level.total_views) AS tot_views, 
+                SUM(view_challenge_level.total_unique_views) AS tot_uni_views
+         FROM Challenges
+            LEFT JOIN (SELECT challenge_id, 
+                              SUM(total_views) AS total_views,
+                              SUM(total_unique_views) AS total_unique_views 
+                       FROM View_Stats
+                       GROUP BY challenge_id) AS view_challenge_level
+            ON Challenges.challenge_id = view_challenge_level.challenge_id 
+            LEFT JOIN (SELECT challenge_id, 
+                              SUM(total_submissions) AS total_submissions,
+                              SUM(total_accepted_submissions) AS total_accepted_submissions
+                       FROM Submission_stats
+                       GROUP BY challenge_id) AS submission_challenge_level
+            ON Challenges.challenge_id = submission_challenge_level.challenge_id
+         GROUP BY College_id) college_level
+     ON Colleges.college_id = college_level.college_id
+     GROUP BY contest_id) contest_level
+ON Contests.contest_id = contest_level.contest_id
+WHERE contest_level.sum_sub +
+      contest_level.sum_acc_sub +
+      contest_level.sum_views +
+      contest_level.sum_uni_views > 0
+ORDER BY contest_id
+```
+
+```sql
+#Solution 2 in MS SQL
+WITH sum_views AS(
+SELECT challenge_id, SUM(COALESCE(total_views,0)) AS total_views, 
+       SUM(COALESCE(total_unique_views, 0)) AS tot_unique_views
+FROM View_Stats GROUP BY challenge_id),
+
+sum_submission AS(
+SELECT challenge_id, SUM(COALESCE(total_submissions,0)) AS tott_submissions, SUM(COALESCE(total_accepted_submissions,0)) AS tot_accepted_submissions
+FROM Submission_Stats GROUP BY challenge_id),
+
+sum_contests AS(
+SELECT contest_id, SUM(total_views) AS sum_views, 
+       SUM(tot_unique_views) AS sum_tot_unique_views, 
+       SUM(tott_submissions) AS sum_tot_submissions, 
+       SUM(tot_accepted_submissions) AS sum_tot_accepted_submissions
+FROM challenges LEFT JOIN sum_views ON challenges.challenge_id = sum_views.challenge_id
+                LEFT JOIN sum_submission ON challenges.challenge_id = sum_submission.challenge_id
+                LEFT JOIN colleges ON challenges.college_id = colleges.college_id
+GROUP BY contest_id)
+                
+SELECT Contests.contest_id, hacker_id, name, sum_tot_submissions, sum_tot_accepted_submissions, sum_views, sum_tot_unique_views
+FROM Contests LEFT JOIN sum_contests ON Contests.contest_id = sum_contests.contest_id
+WHERE sum_tot_submissions + sum_tot_accepted_submissions + sum_views + sum_tot_unique_views > 0
+```
+##### [**Back to Question List**](#question-list)
+[Interviews]:
+https://www.hackerrank.com/challenges/interviews/problem
+
+#### [**15 Days of Learning SQL**][15 Days of Learning SQL]
+```sql
+WITH fifteen_days AS(
+    SELECT hacker_id, submission_date, daily_submissions, 
+           MAX(daily_submissions) OVER(PARTITION BY submission_date) AS max_daily_submission,
+           DENSE_RANK()OVER(ORDER BY submission_date) AS submission_order_date,
+           ROW_NUMBER()OVER(PARTITION BY hacker_id ORDER BY submission_date) AS submission_order_hacker
+    FROM
+          (SELECT hacker_id, submission_date, COUNT(submission_id) AS daily_submissions
+           FROM Submissions
+           GROUP BY hacker_id, submission_date)T1)
+
+SELECT uni_hackers.submission_date, uni_hackers.hacker_per_date, max_submissions.min_hacker_id, Hackers.name
+FROM
+    (SELECT COUNT(hacker_id) AS hacker_per_date, submission_date
+     FROM fifteen_days
+     WHERE submission_order_date = submission_order_hacker
+     GROUP BY submission_date) uni_hackers
+LEFT JOIN 
+    (SELECT MIN(hacker_id) AS min_hacker_id, submission_date
+     FROM fifteen_days
+     WHERE daily_submissions = max_daily_submission
+     GROUP BY submission_date) max_submissions
+ON uni_hackers.submission_date = max_submissions.submission_date
+LEFT JOIN Hackers
+ON max_submissions.min_hacker_id = Hackers.hacker_id
+ORDER BY uni_hackers.submission_date
+```
+##### [**Back to Question List**](#question-list)
+[15 Days of Learning SQL]:
+https://www.hackerrank.com/challenges/15-days-of-learning-sql/problem
