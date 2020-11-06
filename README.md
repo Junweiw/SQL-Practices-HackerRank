@@ -17,9 +17,9 @@ This file includes my solutions to HackerRank SQL questions in MySQL or noted ot
 ### Advanced Join - Hard
 [Interviews](#interviews) | [15 Days of Learning SQL](#15-days-of-learning-sql)
 ### Aggregation - Easy
-Revising Aggregation - The Count Function | Revising Aggregation - The Sum Function | Revising Aggregations - Averages | Average Population | Japan Population | Population Density Difference | The Blunder | Top Earners | Weather Observation 2 | Weather Observation Station 13 | Weather Observation Station 14 | Weather Observation Station 15 | Weather Observation Station 16 | Weather Observation Station 17
+[Revising Aggregations - The Count Function](#revising-aggregations---the-count-function) | [Revising Aggregations - The Sum Function](#revising-aggregations---the-sum-function) | [Revising Aggregations - Averages](#revising-aggregations---Averages) | [Average Population](#average-population) | [Japan Population](#japan-population) | [Population Density Difference](#population-density-difference) | [The Blunder](#the-blunder) | [Top Earners](#top-earners) | [Weather Observation 2](#weather-observation-2) | [Weather Observation Station 13](#weather-observation-station-13) | [Weather Observation Station 14](#weather-observation-station-14) | [Weather Observation Station 15](#weather-observation-station-15) | [Weather Observation Station 16](#weather-observation-station-16) | [Weather Observation Station 17](#weather-observation-station-17)
 ### Aggregation - Medium
-Weather Observation Station 18 | Weather Observation Station 19 | Weather Observation Station 20
+[Weather Observation Station 18](#weather-observation-station-18) | [Weather Observation Station 19](#weather-observation-station-19) | [Weather Observation Station 20](#weather-observation-station-20)
 ### Alternative Queries - Easy
 Draw The Triangle 1 | Draw The Triangle 2
 ### Alternative Queries - Medium
@@ -659,3 +659,163 @@ ORDER BY uni_hackers.submission_date
 ##### [**Back to Question List**](#question-list)
 [15 Days of Learning SQL]:
 https://www.hackerrank.com/challenges/15-days-of-learning-sql/problem
+
+#### [**Revising Aggregations - The Count Function**][Revising Aggregations - The Count Function]
+```sql
+SELECT COUNT(ID)
+FROM CITY
+WHERE POPULATION > 100000
+```
+##### [**Back to Question List**](#question-list)
+[Revising Aggregations - The Count Function]:
+https://www.hackerrank.com/challenges/revising-aggregations-the-count-function/problem
+
+#### [**Revising Aggregations - The Sum Function**][Revising Aggregations - The Sum Function]
+```sql
+SELECT SUM(POPULATION)
+FROM CITY WHERE DISTRICT = 'California'
+```
+##### [**Back to Question List**](#question-list)
+[Revising Aggregations - The Sum Function]:
+https://www.hackerrank.com/challenges/revising-aggregations-the-sum-function/problem
+
+#### [**Revising Aggregations - Averages**][Revising Aggregations - Averages]
+```sql
+SELECT AVG(POPULATION)
+FROM CITY WHERE DISTRICT = 'California'
+```
+##### [**Back to Question List**](#question-list)
+[Revising Aggregations - Averages]:
+https://www.hackerrank.com/challenges/revising-aggregations-the-average-function/problem
+
+#### [**Average Population**][Average Population]
+```sql
+SELECT ROUND(AVG(POPULATION),0) FROM CITY
+```
+##### [**Back to Question List**](#question-list)
+[Average Population]:
+https://www.hackerrank.com/challenges/average-population/problem
+
+#### [**Japan Population**][Japan Population]
+```sql
+SELECT SUM(POPULATION) FROM CITY WHERE COUNTRYCODE = 'JPN'
+```
+##### [**Back to Question List**](#question-list)
+[Japan Population]:
+https://www.hackerrank.com/challenges/japan-population/problem
+
+#### [**Population Density Difference**][Population Density Difference]
+```sql
+SELECT MAX(POPULATION) - MIN(POPULATION) FROM CITY
+```
+##### [**Back to Question List**](#question-list)
+[Population Density Difference]:
+https://www.hackerrank.com/challenges/population-density-difference/problem
+
+#### [**The Blunder**][The Blunder]
+```sql
+SELECT CEIL(AVG(Salary) - AVG(REPLACE(Salary,0,''))) FROM Employees
+```
+##### [**Back to Question List**](#question-list)
+[The Blunder]:
+https://www.hackerrank.com/challenges/the-blunder/problem
+
+#### [**Top Earners**][Top Earners]
+```sql
+# Solution 1
+SELECT months * salary, COUNT(employee_id)
+FROM Employee
+GROUP BY months * salary ORDER BY months * salary DESC LIMIT 1
+```
+
+```sql
+# Solution 2
+SELECT MIN(max_earning), SUM(CASE max_earning WHEN months * salary THEN 1 ELSE 0 END)
+FROM Employee, 
+    (SELECT MAX(months * salary) AS max_earning FROM Employee) AS T1
+```
+##### [**Back to Question List**](#question-list)
+[Top Earners]:
+https://www.hackerrank.com/challenges/earnings-of-employees/problem
+
+#### [**Weather Observation Station 2**][Weather Observation Station 2]
+```sql
+SELECT ROUND(SUM(LAT_N),2) AS lat, ROUND(SUM(LONG_W),2) AS lon FROM STATION
+```
+##### [**Back to Question List**](#question-list)
+[Weather Observation Station 2]:
+https://www.hackerrank.com/challenges/weather-observation-station-2/problem
+
+#### [**Weather Observation Station 13**][Weather Observation Station 13]
+```sql
+SELECT TRUNCATE(SUM(LAT_N),4)
+FROM STATION WHERE LAT_N > 38.788 AND LAT_N < 137.2345
+```
+##### [**Back to Question List**](#question-list)
+[Weather Observation Station 13]:
+https://www.hackerrank.com/challenges/weather-observation-station-13/problem
+
+#### [**Weather Observation Station 14**][Weather Observation Station 14]
+```sql
+SELECT TRUNCATE(MAX(LAT_N),4) FROM STATION WHERE LAT_N < 137.2345
+```
+##### [**Back to Question List**](#question-list)
+[Weather Observation Station 14]:
+https://www.hackerrank.com/challenges/weather-observation-station-14/problem
+
+#### [**Weather Observation Station 15**][Weather Observation Station 15]
+```sql
+SELECT ROUND(LONG_W,4) FROM STATION WHERE LAT_N < 137.2345 ORDER BY LAT_N DESC LIMIT 1
+```
+##### [**Back to Question List**](#question-list)
+[Weather Observation Station 15]:
+https://www.hackerrank.com/challenges/weather-observation-station-15/problem
+
+#### [**Weather Observation Station 16**][Weather Observation Station 16]
+```sql
+SELECT ROUND(MIN(LAT_N),4) FROM STATION WHERE LAT_N > 38.7780
+```
+##### [**Back to Question List**](#question-list)
+[Weather Observation Station 16]:
+https://www.hackerrank.com/challenges/weather-observation-station-16/problem
+
+#### [**Weather Observation Station 17**][Weather Observation Station 17]
+```sql
+SELECT ROUND(LONG_W, 4) FROM STATION WHERE LAT_N > 38.7780 ORDER BY LAT_N LIMIT 1
+```
+##### [**Back to Question List**](#question-list)
+[Weather Observation Station 17]:
+https://www.hackerrank.com/challenges/weather-observation-station-17/problem
+
+#### [**Weather Observation Station 18**][Weather Observation Station 18]
+```sql
+SELECT ROUND(MAX(LAT_N)-MIN(LAT_N) + MAX(LONG_W)-MIN(LONG_W),4) FROM STATION
+```
+##### [**Back to Question List**](#question-list)
+[Weather Observation Station 18]:
+https://www.hackerrank.com/challenges/weather-observation-station-18/problem
+
+#### [**Weather Observation Station 19**][Weather Observation Station 19]
+```sql
+SELECT ROUND(
+             SQRT(POWER(MAX(LAT_N)-MIN(LAT_N), 2)
+            +POWER(MAX(LONG_W)-MIN(LONG_W), 2))
+            ,4)
+FROM STATION
+```
+##### [**Back to Question List**](#question-list)
+[Weather Observation Station 19]:
+https://www.hackerrank.com/challenges/weather-observation-station-19/problem
+
+#### [**Weather Observation Station 20**][Weather Observation Station 20]
+```sql
+SELECT ROUND(AVG(LAT_N), 4)
+FROM (SELECT ROW_NUMBER() OVER(PARTITION BY NULL ORDER BY LAT_N DESC) AS ROW_NUM, 
+      COUNT(LAT_N) OVER(PARTITION BY NULL) AS TOT_ROWS, LAT_N
+      FROM STATION ORDER BY LAT_N) T1
+WHERE ROW_NUM = CASE WHEN TOT_ROWS%2=0 THEN TOT_ROWS/2 ELSE CEIL(TOT_ROWS/2) END OR
+      ROW_NUM = CASE WHEN TOT_ROWS%2=0 THEN TOT_ROWS/2 + 1 ELSE CEIL(TOT_ROWS/2) END
+```
+##### [**Back to Question List**](#question-list)
+[Weather Observation Station 20]:
+https://www.hackerrank.com/challenges/weather-observation-station-20/problem
