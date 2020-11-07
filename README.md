@@ -22,8 +22,6 @@ This file includes my solutions to HackerRank SQL questions in MySQL or noted ot
 [Weather Observation Station 18](#weather-observation-station-18) | [Weather Observation Station 19](#weather-observation-station-19) | [Weather Observation Station 20](#weather-observation-station-20)
 ### Alternative Queries - Easy
 [Draw The Triangle 1](#draw-the-triangle-1) | [Draw The Triangle 2](#draw-the-triangle-2)
-### Alternative Queries - Medium
-Print Prime Numbers
 
 ## Solutions
 #### [**Revising the Select Query I**][Revising-the-Select-Query-I]
