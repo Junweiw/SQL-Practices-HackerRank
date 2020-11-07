@@ -21,7 +21,7 @@ This file includes my solutions to HackerRank SQL questions in MySQL or noted ot
 ### Aggregation - Medium
 [Weather Observation Station 18](#weather-observation-station-18) | [Weather Observation Station 19](#weather-observation-station-19) | [Weather Observation Station 20](#weather-observation-station-20)
 ### Alternative Queries - Easy
-Draw The Triangle 1 | Draw The Triangle 2
+[Draw The Triangle 1](#draw-the-triangle-1) | [Draw The Triangle 2](#draw-the-triangle-2)
 ### Alternative Queries - Medium
 Print Prime Numbers
 
@@ -819,3 +819,28 @@ WHERE ROW_NUM = CASE WHEN TOT_ROWS%2=0 THEN TOT_ROWS/2 ELSE CEIL(TOT_ROWS/2) END
 ##### [**Back to Question List**](#question-list)
 [Weather Observation Station 20]:
 https://www.hackerrank.com/challenges/weather-observation-station-20/problem
+
+#### [**Draw The Triangle 1**][Draw The Triangle 1]
+```sql
+SET @i = 21;
+SELECT REPEAT('* ', @i := @i - 1) FROM 
+    (SELECT 1 UNION SELECT 2 UNION SELECT 3) a, 
+    (SELECT 1 UNION SELECT 2 UNION SELECT 3) b,
+    (SELECT 1 UNION SELECT 2 UNION SELECT 3) c;
+```
+##### [**Back to Question List**](#question-list)
+[Draw The Triangle 1]:
+https://www.hackerrank.com/challenges/draw-the-triangle-1/problem
+
+#### [**Draw The Triangle 2**][Draw The Triangle 2]
+```sql
+SET @i = 0;
+SELECT REPEAT('* ', @i := @i + 1) FROM 
+    (SELECT 1 UNION SELECT 2 UNION SELECT 3) a, 
+    (SELECT 1 UNION SELECT 2 UNION SELECT 3) b,
+    (SELECT 1 UNION SELECT 2 UNION SELECT 3) c
+LIMIT 20;
+```
+##### [**Back to Question List**](#question-list)
+[Draw The Triangle 2]:
+https://www.hackerrank.com/challenges/draw-the-triangle-2/problem
